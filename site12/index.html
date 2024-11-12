@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聖你不來交換禮物</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .photo-section {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .photo-wrapper {
+            flex: 0 1 45%;
+            position: relative;
+        }
+
+        /* B容器樣式 */
+        .photo-wrapper.type-b {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 2375/3718;
+            position: relative;
+        }
+
+        .photo-wrapper.type-b .photo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .photo-wrapper.type-b img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* A容器樣式 */
+        .photo-wrapper.type-a {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .photo-name {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .photo-wrapper.type-a .photo-container {
+            width: 100%;
+            padding-bottom: 100%; /* 1:1 ratio */
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .photo-wrapper.type-a img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .photo-text {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: auto;
+        }
+
+        .text-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .participants {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .group-section {
+            grid-column: 1 / -1;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .participant {
+            text-align: center;
+        }
+
+        .participant img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .photo-container::before {
+            content: "載入中...";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #666;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .participants {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .photo-wrapper {
+                flex: 0 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>聖你不來交換禮物</h1>
+    </div>
+
+    <div class="photo-section">
+        <!-- A容器 -->
+        <div class="photo-wrapper type-a">
+            <div class="photo-name"><center>謝以樂</center> </div>
+            <div class="photo-container">
+                <img 
+                src="https://lh3.googleusercontent.com/d/12NG3ev_0-AMtYN-CW6FGY6Pf81F_ur5l" 
+                    alt="照片1"
+                    onerror="this.style.display='none'; this.parentElement.innerHTML='圖片載入失敗，請檢查連結或權限設定'"
+                >
+            </div>
+            <div class="photo-text">
+<font size="4">你抽到的人物是<strong>約拿</strong>              
+<br> <br> 
+<strong>約拿</strong>是聖經裡一位先知，上帝差遣他去到作惡的尼尼微城勸人悔改，不願意接下這份工作的約拿展開一場逃亡，最後卻被吞進魚肚裡三天！最後他還是到了尼尼微城，並且成功使全城的人免於上帝的懲罰。
+<br> <br> 
+請以<strong>約拿</strong>為原型，準備你的交換禮物
+<br> <br> 
+參考經文：約拿書
+<br> <br> </font>
+            </div>
+        </div>
+        
+        <!-- B容器 -->
+        <div class="photo-wrapper type-b">
+            <div class="photo-container">
+                <img 
+                src="https://lh3.googleusercontent.com/d/1BXLFjJ-wvNuo0fSrMzVRPTu4quOeuwjG" 
+                    alt="照片2"
+                    onerror="this.style.display='none'; this.parentElement.innerHTML='圖片載入失敗，請檢查連結或權限設定'"
+                >
+            </div>
+        </div>
+    </div>
+
+    <div class="text-section"><font size="4">
+        <p><strong><center>活動訊息~~</strong></center><br> <br>
+1.交換禮物請參照你抽到的<strong>聖經人物</strong>故事，但禮物內容請與<strong>信仰無關</strong>。(例如有人抽到耶穌，不可以準備聖經，但可以準備葡萄酒、木屐)
+<br> <br> 
+2.交換禮物預算建議在<strong>200-300間</strong>，但如果想要超過或是比較低也行，但後果自行負擔。
+<br> <br> 
+3.當天鴻儒會備餐，收100元餐費，但<strong>自由奉獻</strong>（如果經濟拮据不方便或想要奉獻給多一點都可以）。
+<br> <br> 
+4.dress code以<strong>學院風</strong>+紅色或綠色配件！
+</p></font>
+    </div>
+
+     <div class="participants">
+        <div class="group-section">38核工</div>
+        <div class="participant">
+            <img 
+                src="https://lh3.googleusercontent.com/d/1o9XCWdlgeQ-gvTWy6FUEApSFVd0-604s" 
+                alt="張丁顯"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>張丁顯</p>
+        </div>
+        <div class="participant">
+            <img 
+                src="https://lh3.googleusercontent.com/d/1urGMhxW4FFJ2Qj7lg-dudPC3BVZ7S6uS" 
+                alt="傅鴻儒"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>傅鴻儒</p>
+        </div>
+        <div class="participant">
+             <img 
+                src="https://lh3.googleusercontent.com/d/1cz2PNpLqXMMts-hM3-0sfeT-ANxNxcrl" 
+                alt="林雅憶"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>林雅憶</p>
+        </div>
+        <div class="participant">
+             <img 
+                src="https://lh3.googleusercontent.com/d/1-I-PsgzoHno_QIFXiN17zDm49BPYsBmd" 
+                alt="陳諺芳"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>陳諺芳</p>
+        </div>
+
+        <div class="group-section">39核工</div>
+        <div class="participant">
+             <img 
+                src="https://lh3.googleusercontent.com/d/1-7LewWEu3X1r1U3Plt3ypOU-zd2BOmdh" 
+                alt="李苡瑄"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>李苡瑄</p>
+        </div>
+        <div class="participant">
+             <img 
+                src="https://lh3.googleusercontent.com/d/1YnkoCCxONSAjHjKVK3LbVM3R2gbUrSYB" 
+                alt="林崇真"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>林崇真</p>
+        </div>
+        <div class="participant">
+            <img 
+                src="https://lh3.googleusercontent.com/d/1_ZmISkYll1_l5gSI7eNnu4rocBiqNcUB" 
+                alt="蔡承允"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>蔡承允</p>
+        </div>
+        <div class="participant">
+             <img 
+                src="https://lh3.googleusercontent.com/d/1qEB5QUvVYE0cRzRaD7Qh45_AEa5LveoM" 
+                alt="龍宇芩"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>龍宇芩</p>
+        </div>
+
+        <div class="group-section">南方澳分隊 & 阿龍王親衛隊</div>
+        <div class="participant">
+             <img 
+                src="https://lh3.googleusercontent.com/d/1E279t6snI1QNfn8aUFhOzSX2xy6a-BS8" 
+                alt="張信群"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>張信群</p>
+        </div>
+        <div class="participant">
+             <img 
+                src="https://lh3.googleusercontent.com/d/1sVIKdEX5npGwGN9bqPazpF4rBxbzdvbH" 
+                alt="陳啓恩"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>陳啓恩</p>
+        </div>
+        <div class="participant">
+            <img 
+                src="https://lh3.googleusercontent.com/d/1GBY06lcyM9xcINeKxcYPvoLtPPtB0LGG" 
+                alt="張約典"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>張約典</p>
+        </div>
+        <div class="participant">
+             <img 
+                src="https://lh3.googleusercontent.com/d/12NG3ev_0-AMtYN-CW6FGY6Pf81F_ur5l" 
+                alt="謝以樂"
+                onerror="this.src='/api/placeholder/120/120'; this.onerror=null;"
+            >
+            <p>謝以樂</p>
+        </div>
+    </div>
+</body>
+</html>
