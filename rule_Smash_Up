@@ -1,1 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鴻儒的大殺四方名詞表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .term-card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border: none;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #555;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .term-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .term-card:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+        
+        .expansion-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+        }
+        
+        .section-divider {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 15px 0;
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        .section-divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ccc, transparent);
+        }
+        
+        .section-divider span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 15px;
+            color: #666;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff, #f8f9ff);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close:hover {
+            color: #667eea;
+        }
+        
+        .modal h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .modal p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 20% auto;
+            }
+            
+            .term-card {
+                min-height: 70px;
+                padding: 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 鴻儒的大殺四方名詞表</h1>
+        
+        <div class="grid">
+            <!-- 基礎功能 -->
+            <button class="term-card" onclick="showModal('持續能力', '只要卡片打出到場上後，便會一直存在的能力。')">
+                持續能力<br>Persistent Ability
+            </button>
+            
+            <button class="term-card" onclick="showModal('特殊能力', '在某些時機點後，可以發動的能力。')">
+                特殊能力<br>Special Ability
+            </button>
+            
+            <button class="term-card" onclick="showModal('天賦能力', '在自己回合中，一回合可以啟用一次。')">
+                天賦能力<br>Talent Ability
+            </button>
+            
+            <button class="term-card" onclick="showModal('附屬', '將一張卡放在隨從或基地上。')">
+                附屬<br>Attach
+            </button>
+            
+            <button class="term-card" onclick="showModal('額外', '獲得額外一次打出行為。')">
+                額外<br>Extra
+            </button>
+            
+            <button class="term-card" onclick="showModal('移除', '將這張牌放入棄牌區。')">
+                移除<br>Remove
+            </button>
+            
+            <button class="term-card" onclick="showModal('傳送（移動）', '針對一張卡，將其附屬的卡片或標記一起移動到另一個基地。')">
+                傳送（移動）<br>Transport/Move
+            </button>
+            
+            <button class="term-card" onclick="showModal('轉移', '針對附屬或標記，將期移動到另一張卡片上。')">
+                轉移<br>Transfer
+            </button>
+            
+            <!-- 分隔線 -->
+            <div class="section-divider">
+                <span>擴充功能</span>
+            </div>
+            
+            <!-- 擴充功能 -->
+            <button class="term-card" onclick="showModal('瘋狂牌', '當效果指定你抽瘋狂牌後，將其放入手牌，隨後進入牌組循環，除非卡片效果能讓你將其放回瘋狂牌堆。當遊戲結束後，每兩張瘋狂拍會使你得總分-1')">
+                <div class="expansion-badge">擴充功能</div>
+                瘋狂牌<br>Madness Card
+            </button>
+            
+            <button class="term-card" onclick="showModal('埋葬', '將一張隨從或行動，面朝下放到一個基地底下。（埋葬的卡片無法發動效果、被計分，也不能或被指定。）')">
+                <div class="expansion-badge">擴充功能</div>
+                埋葬<br>Bury
+            </button>
+            
+            <button class="term-card" onclick="showModal('翻開', '在回合最一開始時，可以將一張被埋葬的卡，從基地上視為額外召喚翻開。')">
+                <div class="expansion-badge">擴充功能</div>
+                翻開<br>Uncover
+            </button>
+            
+            <button class="term-card" onclick="showModal('泰坦', '不屬於戰術或隨從的專屬卡，只能在符合條件時放到基地上，並提供強力效果。')">
+                <div class="expansion-badge">擴充功能</div>
+                泰坦<br>Titan
+            </button>
+        </div>
+    </div>
 
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const closeBtn = document.getElementsByClassName('close')[0];
+
+        function showModal(title, description) {
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modal.style.display = 'block';
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // 添加鍵盤支持
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
