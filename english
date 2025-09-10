@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>英翻中｜翻譯＋英文語音＋音節＋候選翻譯＋自訂</title>
+  <style>
+    :root{--bg:#0b1020;--bg-top:#0e1430;--card:rgba(19,24,49,.75);
+      --border:rgba(120,140,200,.20);--border-strong:rgba(120,140,200,.35);
+      --text:#f3f6ff;--muted:#b5c0e0;--accent:#7aa2ff;--danger:#ff98a4;
+      --shadow:0 12px 30px rgba(0,0,0,.35);--radius:16px;--radius-sm:12px;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"PingFang TC","Microsoft JhengHei","Noto Sans TC",Helvetica,Arial,sans-serif;
+      color:var(--text);
+      background:radial-gradient(1200px 600px at 80% -10%,#182253 0%,rgba(24,34,83,0) 60%),
+                 radial-gradient(900px 600px at -10% 0%,#1a3560 0%,rgba(26,53,96,0) 55%),
+                 linear-gradient(180deg,var(--bg-top),var(--bg))}
+    .wrap{max-width:980px;margin:42px auto;padding:0 20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .title{font-size:26px;font-weight:800;margin:0;
+      background:linear-gradient(90deg,#fff,#bcd5ff 40%,#9fc2ff 70%,#eaf2ff);
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{color:var(--muted);font-size:13px;margin-top:4px}
+    .status{font-size:12px;padding:8px 12px;border-radius:999px;border:1px solid var(--border);
+      color:var(--muted);background:rgba(255,255,255,.03)}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:18px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+    .stack{display:grid;gap:14px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .grow{flex:1 1 320px}
+    label{display:block;font-size:12px;color:var(--muted);margin:2px 0 6px}
+    input[type="text"],.custom-input{padding:12px 14px;border-radius:12px;
+      border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text);
+      outline:none}
+    input[type="text"]::placeholder{color:#9bb1e2}
+    .btn{appearance:none;border:none;border-radius:12px;cursor:pointer;font-weight:700;
+      padding:12px 16px;color:#0a1224;background:linear-gradient(180deg,#a9c6ff,#7aa2ff);
+      box-shadow:0 6px 18px rgba(122,162,255,.25)}
+    .btn.secondary{background:linear-gradient(180deg,#34406a,#2a355d);color:#e7ecff}
+    .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+    .btn.small{padding:9px 12px;border-radius:10px;font-size:13px}
+    .result{min-height:64px;padding:14px;line-height:1.7;background:rgba(255,255,255,.04);
+      border:1px dashed var(--border);border-radius:12px;font-size:16px;white-space:pre-wrap}
+    .kv{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .kv .k{font-size:12px;color:#9fc2ff}
+    .kv .v{font-weight:700}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+    .chip{font-size:13px;padding:6px 10px;border-radius:999px;border:1px solid var(--border);
+      background:#10173a;color:#cfe3ff;cursor:pointer}
+    .chip.active{background:#20396f;border-color:var(--border-strong)}
+    .custom-input{min-width:100px}
+    .history-list{display:grid;gap:10px;margin-top:8px}
+    .history-item{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start;
+      border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.03);padding:12px}
+    .history-input{font-weight:800;color:#e9f1ff}
+    .history-output{color:#cfe3ff}
+    .history-actions{display:flex;gap:6px}
+    footer{margin:28px 0 6px;color:var(--muted);font-size:12px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 class="title">英翻中 · 翻譯 + 英文語音 + 音節 + 候選 + 自訂</h1>
+        <div class="sub">輸入英文 → 翻譯中文；候選翻譯可切換或自己輸入；保留查詢記錄</div>
+      </div>
+      <div class="status" id="status">準備就緒</div>
+    </header>
+
+    <section class="panel stack">
+      <div class="row">
+        <div class="grow">
+          <label for="textInput">輸入英文</label>
+          <input id="textInput" type="text" placeholder="e.g., memory / premium ..." />
+        </div>
+        <div>
+          <label style="visibility:hidden">_</label>
+          <button class="btn" id="translateBtn">翻譯 → 中文</button>
+        </div>
+      </div>
+
+      <div>
+        <label>中文翻譯</label>
+        <div id="translation" class="result"></div>
+      </div>
+
+      <div class="kv"><div class="k">音節：</div><div class="v" id="syllables">（等待輸入）</div></div>
+
+      <div>
+        <div class="kv"><div class="k">候選翻譯：</div></div>
+        <div id="candidates" class="chips"></div>
+      </div>
+
+      <div class="row">
+        <button class="btn secondary small" id="speakEn">🔊 播放英文</button>
+        <button class="btn ghost small" id="copyResult">複製翻譯</button>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:16px">
+      <div style="font-weight:800">查詢記錄</div>
+      <div id="historyList" class="history-list"></div>
+      <div id="historyEmpty" style="color:#b5c0e0;font-size:13px;padding:6px 0">（目前沒有記錄）</div>
+      <button class="btn ghost small" id="clearAll" style="margin-top:8px">清空全部記錄</button>
+    </section>
+
+    <footer>本頁僅使用瀏覽器技術（fetch + speechSynthesis + localStorage）</footer>
+  </div>
+
+  <script>
+    const $=id=>document.getElementById(id);
+    const textInput=$('textInput'),translateBtn=$('translateBtn'),
+          translation=$('translation'),candidatesEl=$('candidates'),
+          syllablesEl=$('syllables'),speakEnBtn=$('speakEn'),
+          copyBtn=$('copyResult'),statusEl=$('status'),
+          historyList=$('historyList'),historyEmpty=$('historyEmpty'),
+          clearAllBtn=$('clearAll');
+    const LS_KEY='translate_history_v3';
+    const loadHistory=()=>JSON.parse(localStorage.getItem(LS_KEY)||'[]');
+    const saveHistory=l=>localStorage.setItem(LS_KEY,JSON.stringify(l));
+    function addHistory(i,o){const l=loadHistory();l.unshift({id:Date.now(),input:i,output:o});saveHistory(l);renderHistory();}
+    function updateLatest(o){const l=loadHistory();if(l[0]){l[0].output=o;saveHistory(l);renderHistory();}}
+    function del(id){saveHistory(loadHistory().filter(x=>x.id!==id));renderHistory();}
+    function clearH(){localStorage.removeItem(LS_KEY);renderHistory();}
+    function renderHistory(){
+      const l=loadHistory();historyList.innerHTML='';
+      historyEmpty.style.display=l.length?'none':'block';
+      l.forEach(it=>{
+        const row=document.createElement('div');row.className='history-item';
+        const texts=document.createElement('div');
+        texts.innerHTML=`<div class="history-input">${it.input}</div><div class="history-output">${it.output}</div>`;
+        const actions=document.createElement('div');actions.className='history-actions';
+        const sp=document.createElement('button');sp.className='btn ghost small';sp.textContent='播放英文';
+        sp.onclick=()=>speak(it.input);
+        const rm=document.createElement('button');rm.className='btn ghost small';rm.textContent='刪除';
+        rm.onclick=()=>del(it.id);
+        actions.appendChild(sp);actions.appendChild(rm);
+        row.appendChild(texts);row.appendChild(actions);historyList.appendChild(row);
+      });
+    }
+    function setStatus(m,ok=true){statusEl.textContent=m;statusEl.style.color=ok?'#b5c0e0':'#ff98a4'}
+    async function fetchMM(t){const r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(t)}&langpair=en|zh-TW`);return r.json();}
+    function uniqueCands(j){const main=j?.responseData?.translatedText||'';const arr=[main,...(j.matches||[]).map(m=>m.translation)].filter(Boolean);return[...new Set(arr.map(s=>s.trim()))];}
+    function renderCands(list,onPick){
+      candidatesEl.innerHTML='';
+      list.forEach((txt,idx)=>{
+        const chip=document.createElement('div');chip.className='chip'+(idx==0?' active':'');chip.textContent=txt;
+        chip.onclick=()=>{Array.from(candidatesEl.children).forEach(c=>c.classList.remove('active'));chip.classList.add('active');translation.textContent=txt;updateLatest(txt);};
+        candidatesEl.appendChild(chip);
+      });
+      // ➕ 自訂翻譯輸入
+      const input=document.createElement('input');
+      input.placeholder='輸入自訂翻譯...';input.className='custom-input';
+      input.onkeydown=e=>{if(e.key==='Enter'&&input.value.trim()){translation.textContent=input.value.trim();updateLatest(input.value.trim());input.value='';}};
+      candidatesEl.appendChild(input);
+    }
+    async function doAll(){
+      const word=textInput.value.trim();if(!word)return setStatus('請先輸入英文',false);
+      setStatus('查詢中…');translation.textContent='翻譯中…';showSyl(word);
+      try{const data=await fetchMM(word);const c=uniqueCands(data);translation.textContent=c[0]||'(無結果)';addHistory(word,c[0]||'');renderCands(c,()=>{});setStatus('完成 ✅');}
+      catch{translation.textContent='(失敗)';setStatus('翻譯失敗',false);}
+    }
+    translateBtn.onclick=doAll;textInput.onkeydown=e=>{if(e.key==='Enter')doAll();}
+    function getEnVoice(){const v=speechSynthesis.getVoices();return v.find(x=>x.lang.startsWith('en')&&x.name.toLowerCase().includes('google'))||v.find(x=>x.lang.startsWith('en'));}
+    function speak(t){const u=new SpeechSynthesisUtterance(t);u.lang='en-US';const v=getEnVoice();if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u);}
+    speakEnBtn.onclick=()=>{if(textInput.value.trim())speak(textInput.value.trim());}
+    copyBtn.onclick=async()=>{if(translation.textContent){await navigator.clipboard.writeText(translation.textContent);setStatus('已複製');}}
+    function syl(w){w=w.toLowerCase().replace(/[^a-z]/g,'');if(!w)return[];const sp={premium:['pre','mi','um'],memory:['mem','o','ry'],chinese:['chi','nese']};if(sp[w])return sp[w];return[w];}
+    function showSyl(w){const a=syl(w);syllablesEl.textContent=a.length?a.join(' / '):'（無法切分）';}
+    clearAllBtn.onclick=()=>{if(confirm('清空全部記錄？'))clearH();}
+    renderHistory();
+  </script>
+</body>
+</html>
